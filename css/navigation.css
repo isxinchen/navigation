@@ -70,6 +70,11 @@ li{
 	float: left;
 }
 
+#child_item a{
+	width: 58px;
+	height: 30px;
+}
+
 #parent_item_add{
   width: 960px;
   height: auto;
@@ -78,5 +83,7 @@ li{
 }
 
 .parent_item_add{
-  float: right;
+	width: 100px;
+	height: 60px;
+	float: right;
 }
