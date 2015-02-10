@@ -7,6 +7,9 @@
 
 
 import web
+import json
+import db
+
 
 groups = []
 urls = ("/", "hello",
@@ -52,7 +55,28 @@ class item:
 
 class hello:
     def GET(self):
-        return 'Hello, world!'
+        # return 'Hello, world!'
+        result = []
+        groups = db.get_groups()
+        g = {}
+        for group in groups:
+        	items = db.get_items(group.g_id)
+        	# item_result = []
+        	# for item in items:
+        	# 	i = {}
+        	# 	i['i_id'] = item.i_id
+        	# 	i['i_name'] = item.i_name
+        	# 	i['i_url'] = item.i_url
+        	# 	i['i_index'] = item.i_index
+        	# 	item_result.append(i)
+        	g['g_id'] = group.g_id
+        	g['g_name'] = group.g_id
+        	g['g_index'] = group.g_index
+        	# g['items'] = item_result
+        	g['items'] = items
+        	result.append(g)
+        web.header('content-type','text/json')
+        return json.dumps(result)
     
     if __name__ == "__main__":
         web.wsgi.runwsgi = lambda func, addr=None: web.wsgi.runfcgi(func, addr)
@@ -111,9 +135,6 @@ def info():
 		print group.g_id,group.g_name
 		for item in group.items:
 			print item.id,item.name,item.url
-
-def parser():
-	pass
 
 if __name__ == '__main__':
 	item1 = item(1, "qq", "http://www.qq.com")
