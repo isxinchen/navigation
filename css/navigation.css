@@ -1,3 +1,14 @@
+#wimoban_p,#wimoban_p a{
+    color:#fff; 
+    font-family:"微软雅黑";
+}
+
+#wimoban_p{
+    text-align:center; 
+    font-size:14px; 
+    clear:both;
+}
+
 ul{
 	margin: 0px;
 	padding: 0px;
@@ -6,43 +17,65 @@ ul{
 }
 
 li{
-
+	margin: 0px;
+	padding: 0px;
 }
+
+.text-overflow{ 
+	display:block;/*内联对象需加*/ 
+	/*width:31em; */
+	word-break:keep-all;/* 不换行 */ 
+	white-space:nowrap;/* 不换行 */ 
+	overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */ 
+	text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/ 
+} 
 
 #container{
 	width: 960px;
-	height: auto;
+	/*height: auto;*/
 	/*background-color: blue;*/
+	padding: 0px;
+
 	margin: 0 auto;
 }
 
 #nav_list{
-	width: 960px;
-	height: auto;
+	/*width: 950px;*/
+	/*height: auto;*/
 	/*background-color: red;*/
-	float: left;
+	/*float: left;*/
 }
 
 #parent{
-	width: 960px;
-	height: auto;
+	width: 940px;
+	/*height: auto;*/
+	margin: auto;
+	margin-top: 10px;
 	/*background-color: green;*/
-	float: left;
+	/*float: left;*/
 }
 
-#parent li{
+/*#parent li{
 	float: left;
-}
+}*/
 
 #parent_title{
-	width: 960px;
-	height: auto;
-	margin-top: 10px;
+	width: 100%;
+	/*height: 40px;*/
+	/*margin-top: 10px;*/
+	padding: 0px;
 	/*background-color: yellow;*/
 	
 }
+
+#parent_title a{
+	width: 100px;
+	height: 40px;
+	padding: 0px;
+}
+
 #parent_item{
-	width: 950px;
+	width: 940px;
 	height: auto;
 	margin-top: 10px;
 	padding: 0px 10px 10px 0px;
@@ -51,39 +84,49 @@ li{
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
+    overflow: auto;
 }
 
 #child{
-	width: 960px;
-	    background:#FC9; 
+	/*width: 960px;*/
+	background:#FC9; 
     -moz-border-radius: 15px;
     -webkit-border-radius: 15px;
     border-radius:15px;
 }
 
 #child li{
+/*	width: 100px;
+	height: 35px;*/
+	float: left;
 	margin-top: 10px;
 	margin-left: 10px;
+	/*background-color: #222;*/
+	padding: 0px;	
 }
 
 #child_item{
-	float: left;
+	/*float: left;*/
+	/*overflow: hidden;*/
 }
 
 #child_item a{
-	width: 58px;
-	height: 30px;
+	width: 106px;
+	height: 35px;
+	/*margin: 0px;*/
+	padding: 0px 5px;
+
 }
 
 #parent_item_add{
-  width: 960px;
-  height: auto;
+  width: 100%;
+  /*height: auto;*/
   margin-top: 20px;
-  float: left;
+  /*float: left;*/
 }
 
 .parent_item_add{
-	width: 100px;
-	height: 60px;
+/*	width: 100px;
+	height: 60px;*/
 	float: right;
 }
