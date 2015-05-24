@@ -12,13 +12,14 @@ import db
 
 
 groups = []
-urls = ("/", "hello",
-	"/api/addgroup(.+)", "addgroup",
-	"/api/delgroup(.+)", "delgroup",
+urls = ("/api/getall", "hello",
+	"/api/addgroup/(.+)", "addgroup",
+	"/api/delgroup/", "delgroup",
 	"/api/editgroup(.+)", "editgroup",
 	"/api/additem(.+)", "additem",
 	"/api/delitem(.+)", "edititem",
-	"/api/editgroup(.+)", "editgroup")
+	"/api/editgroup(.+)", "editgroup",
+	"/api/test", "test")
 app = web.application(urls, globals())
 
 class group:
@@ -78,17 +79,17 @@ class hello:
         web.header('content-type','text/json')
         return json.dumps(result)
     
-    if __name__ == "__main__":
-        web.wsgi.runwsgi = lambda func, addr=None: web.wsgi.runfcgi(func, addr)
-        app.run()
+    # if __name__ == "__main__":
+    #     web.wsgi.runwsgi = lambda func, addr=None: web.wsgi.runfcgi(func, addr)
+    #     app.run()
 
-class addgroup(object):
-	"""docstring for ClassName"""
+class addgroup:
+	# """docstring for ClassName"""
 	# def __init__(self, arg):
 		# super(ClassName, self).__init__()
 		# self.arg = arg
-	def GET(self):
-		return "add group"
+	def GET(self, name):
+		return "add group" + " " + name
 
 class delgroup(object):
 	"""docstring for ClassName"""
@@ -96,7 +97,9 @@ class delgroup(object):
 		# super(ClassName, self).__init__()
 		# self.arg = arg
 	def GET(self):
-		return "del group"
+		data = web.input();
+		# return "del group" + data.name
+		return data
 
 class editgroup(object):
 	"""docstring for ClassName"""
@@ -129,6 +132,14 @@ class edititem(object):
 		# self.arg = arg
 	def GET(self):
 		return "edit item"
+
+class test:
+	# """docstring for ClassName"""
+	# def __init__(self, arg):
+		# super(ClassName, self).__init__()
+		# self.arg = arg
+	def GET(self):
+		return "test"
 
 def info():
 	for group in groups:
