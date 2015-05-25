@@ -12,8 +12,9 @@ import db
 
 
 groups = []
-urls = ("/api/getall", "hello",
-	"/api/addgroup/(.+)", "addgroup",
+urls = ("/", "hello",
+	"/api/getall", "hello",
+	"/api/addgroup/", "addgroup",
 	"/api/delgroup/", "delgroup",
 	"/api/editgroup(.+)", "editgroup",
 	"/api/additem(.+)", "additem",
@@ -59,9 +60,11 @@ class hello:
         # return 'Hello, world!'
         result = []
         groups = db.get_groups()
-        g = {}
+        
         for group in groups:
+        	g = {}
         	items = db.get_items(group.g_id)
+
         	# item_result = []
         	# for item in items:
         	# 	i = {}
@@ -71,12 +74,15 @@ class hello:
         	# 	i['i_index'] = item.i_index
         	# 	item_result.append(i)
         	g['g_id'] = group.g_id
-        	g['g_name'] = group.g_id
+        	g['g_name'] = group.g_name
         	g['g_index'] = group.g_index
         	# g['items'] = item_result
         	g['items'] = items
         	result.append(g)
-        web.header('content-type','text/json')
+        web.header('content-type','application/json')
+        web.header('charset','utf-8')
+        web.header('Access-Control-Allow-Origin','*')
+        # return json.dumps(result, ensure_ascii = False, indent = 2)
         return json.dumps(result)
     
     # if __name__ == "__main__":
@@ -88,8 +94,30 @@ class addgroup:
 	# def __init__(self, arg):
 		# super(ClassName, self).__init__()
 		# self.arg = arg
-	def GET(self, name):
-		return "add group" + " " + name
+	# def GET(self, name):
+	def GET(self):
+		result = {}
+		group = web.input()
+		name = group.get('name')
+		# return type(group)
+		if not group:
+			result['statuscode'] = -1
+			result['msg'] = 'error, please check your parameter(s)'
+			result['result'] = ''
+			return json.dumps(result)
+		# return name
+		if name is None or not name:
+		# if not group.__contains__('name'):
+			result['statuscode'] = -2
+			result['msg'] = "error, do not hava a  parameter named 'name' or 'name' is empty"
+			result['result'] = ''
+			return json.dumps(result)
+
+		result['statuscode'] = 0
+		result['msg'] = "success"
+		result['result'] = ''
+		return db.add_group(name, -1)
+		return json.dumps(result) #+ " " + group.name
 
 class delgroup(object):
 	"""docstring for ClassName"""
@@ -147,13 +175,13 @@ def info():
 		for item in group.items:
 			print item.id,item.name,item.url
 
-if __name__ == '__main__':
-	item1 = item(1, "qq", "http://www.qq.com")
-	group1 = group(1, "test")
-	group1.add_item(item1)
-	group1.add_item(item1)
-	group1.add_item(item1)
-	group1.add_item(item1)
-	group1.add_item(item1)
-	groups.append(group1)
-	info()
+# if __name__ == '__main__':
+# 	item1 = item(1, "qq", "http://www.qq.com")
+# 	group1 = group(1, "test")
+# 	group1.add_item(item1)
+# 	group1.add_item(item1)
+# 	group1.add_item(item1)
+# 	group1.add_item(item1)
+# 	group1.add_item(item1)
+# 	groups.append(group1)
+# 	info()
