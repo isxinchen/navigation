@@ -15,14 +15,41 @@ groups = []
 
 urls = ("/", "hello",
         "/api/getall", "hello",
-        "/api/addgroup/", "addgroup",
+        "/api/group", "GroupAction",
+        "/api/user", "UserAction",
+        "/api/addgroup", "addgroup",
         "/api/delgroup/", "delgroup",
-        "/api/editgroup(.+)", "editgroup",
-        "/api/additem(.+)", "additem",
-        "/api/delitem(.+)", "edititem",
-        "/api/editgroup(.+)", "editgroup",
+        "/api/editgroup/(.+)", "editgroup",
+        "/api/additem", "additem",
+        "/api/delitem", "edititem",
+        "/api/editgroup/(.+)", "editgroup",
         "/api/test", "test")
 app = web.application(urls, globals())
+
+def parse_web_input(input):
+    result = {}
+    params = input
+    action = params.get('action')
+    # return type(group)
+    if not params:
+        result['statuscode'] = -1
+        result['msg'] = 'error, please check your parameter(s)'
+        result['result'] = ''
+        #return json.dumps(result)
+        return result
+    # return name
+    if action is None or not action:
+        # if not group.__contains__('name'):
+        result['statuscode'] = -2
+        result['msg'] = "error, do not hava a  parameter named 'action' or 'action' is empty"
+        result['result'] = ''
+        return result
+        #return json.dumps(result)
+
+    result['statuscode'] = 0
+    result['msg'] = "success"
+    result['result'] = ''
+    return result
 
 
 class group:
@@ -44,6 +71,75 @@ class group:
         def clear():
             print "Clear items"
 
+class UserAction(object):
+    """docstring for UserAction"""
+    # def __init__(self, arg):
+    #     super(UserAction, self).__init__()
+    #     self.arg = arg
+
+    def login(self, params):
+        return "login"
+    
+    def GET(self):
+        params = web.input()
+        result = parse_web_input(params)
+        if result['statuscode'] == 0:
+            action = params.get('action')
+            if action == 'login':   
+                return self.login(params)
+        return json.dumps(result)  # + " " + group.name
+
+class GroupAction:
+    """docstring for ClassName"""
+
+    def add_group(self, params):
+        return params
+
+    def del_group(self, params):
+        return params
+
+    def edit_group(self, params):
+        return params
+
+    def get_groups(self, params):
+        return params
+
+    def GET(self):
+        functions = {
+        'addgroup': self.add_group,
+        'delgroup': self.add_group,
+        'editgroup': self.add_group}
+        result = {}
+        params = web.input()
+        action = params.get('action')
+        # return type(group)
+        if not params:
+            result['statuscode'] = -1
+            result['msg'] = 'error, please check your parameter(s)'
+            result['result'] = ''
+            return json.dumps(result)
+        # return name
+        if action is None or not action:
+            # if not group.__contains__('name'):
+            result['statuscode'] = -2
+            result['msg'] = "error, do not hava a  parameter named 'name' or 'name' is empty"
+            result['result'] = ''
+            return json.dumps(result)
+
+        result['statuscode'] = 0
+        result['msg'] = "success"
+        result['result'] = ''
+
+        if action in functions:
+            func = functions[action]
+            if func:
+                return func(params)
+            return "error"
+        else:
+            return "error"
+
+        # return db.add_group(name, -1)
+        return json.dumps(result)  # + " " + group.name
 
 class item:
     id = -1
@@ -92,7 +188,7 @@ class hello:
         return json.dumps(result)
 
 
-class addgroup(object):
+class addgroup:
         # """docstring for ClassName"""
         # def __init__(self, arg):
             # super(ClassName, self).__init__()
@@ -120,7 +216,7 @@ class addgroup(object):
         result['statuscode'] = 0
         result['msg'] = "success"
         result['result'] = ''
-        return db.add_group(name, -1)
+        # return db.add_group(name, -1)
         return json.dumps(result)  # + " " + group.name
 
 
@@ -150,12 +246,41 @@ class editgroup(object):
 
 class additem(object):
 
-    """docstring for ClassName"""
+    # """docstring for ClassName"""
     # def __init__(self, arg):
     # super(ClassName, self).__init__()
     # self.arg = arg
 
     def GET(self):
+        result = {}
+        group = web.input()
+        name = group.get('name')
+        url = group.get('url')
+        # return type(group)
+        if not group:
+            result['statuscode'] = -1
+            result['msg'] = 'error, please check your parameter(s)'
+            result['result'] = ''
+            return json.dumps(result)
+        # return name
+        if name is None or not name:
+            # if not group.__contains__('name'):
+            result['statuscode'] = -2
+            result['msg'] = "error, do not hava a  parameter named 'name' or 'name' is empty"
+            result['result'] = ''
+            return json.dumps(result)
+
+        if url is None or not url:
+            # if not group.__contains__('name'):
+            result['statuscode'] = -2
+            result['msg'] = "error, do not hava a  parameter named 'url' or 'url' is empty"
+            result['result'] = ''
+            return json.dumps(result)
+
+        result['statuscode'] = 0
+        result['msg'] = "success"
+        result['result'] = ''
+        # return db.add_group(name, -1)
         return "add item"
 
 
@@ -170,14 +295,14 @@ class delitem(object):
         return "del item"
 
 
-class edititem(object):
+class edititem:
 
     """docstring for ClassName"""
     # def __init__(self, arg):
     # super(ClassName, self).__init__()
     # self.arg = arg
 
-    def GET(self):
+    def GET(self, x):
         return "edit item"
 
 
@@ -209,5 +334,5 @@ def info():
 # 	info()
 
 if __name__ == "__main__":
-    web.wsgi.runwsgi = lambda func, addr=None: web.wsgi.runfcgi(func, addr)
+    # web.wsgi.runwsgi = lambda func, addr=None: web.wsgi.runfcgi(func, addr)
     app.run()
