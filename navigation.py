@@ -35,19 +35,22 @@ def parse_web_input(input):
         result['statuscode'] = -1
         result['msg'] = 'error, please check your parameter(s)'
         result['result'] = ''
+        result['action'] = ''
         #return json.dumps(result)
         return result
     # return name
     if action is None or not action:
         # if not group.__contains__('name'):
         result['statuscode'] = -2
-        result['msg'] = "error, do not hava a  parameter named 'action' or 'action' is empty"
+        result['msg'] = 'error, do not hava a  parameter named 'action' or 'action' is empty'
+        result['action'] = ''
         result['result'] = ''
         return result
         #return json.dumps(result)
 
     result['statuscode'] = 0
-    result['msg'] = "success"
+    result['msg'] = 'success'
+    result['action'] = action
     result['result'] = ''
     return result
 
@@ -81,10 +84,9 @@ class UserAction(object):
         return "login"
     
     def GET(self):
-        params = web.input()
-        result = parse_web_input(params)
+        result = parse_web_input(web.input())
         if result['statuscode'] == 0:
-            action = params.get('action')
+            action = result['action']
             if action == 'login':   
                 return self.login(params)
         return json.dumps(result)  # + " " + group.name
